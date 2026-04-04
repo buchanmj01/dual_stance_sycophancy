@@ -209,3 +209,9 @@ __marimo__/
 # Checkpoint and intermediate outputs
 *.pt
 *.pth
+
+dual_stance_sycophancy/
+
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
