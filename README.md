@@ -4,15 +4,16 @@
 
 Standard activation steering for sycophancy passes single-stance evaluation — but does it actually target sycophancy, or does it just suppress agreement? This repo contains the full codebase for a dual-stance evaluation method that distinguishes the two. Applied to centroid-difference steering on Llama-3-8B-Instruct, we find:
 
-1. **The steering direction is non-specific** — it reduces agreement with factually correct statements as well as sycophantic ones.
-2. **The effects are highly structured** — dual-stance consistency predicts steering susceptibility (*r* = 0.88 in-sample, *r* = 0.84 out-of-sample on 12 novel topics).
-3. **The geometry is puzzling** — sycophantic and factual agreement occupy distinct activation subspaces, yet the steering direction projects equally onto both.
+1. **The steering direction is non-specific** - it reduces agreement with factually correct statements as well as sycophantic ones.
+2. **The effects are highly structured** - dual-stance consistency predicts steering susceptibility (*r* = 0.88 in-sample, *r* = 0.84 out-of-sample on 12 novel topics).
+3. **The geometry is puzzling** - sycophantic and factual agreement occupy distinct activation subspaces, yet the steering direction projects equally onto both.
 
 ## Repository contents
 
 ```
 ├── dual_stance_sycophancy.ipynb   # Full codebase (Colab notebook)
 ├── requirements.txt
+├── dual_stance_figures
 ├── LICENSE
 └── README.md
 ```
@@ -21,14 +22,14 @@ Standard activation steering for sycophancy passes single-stance evaluation — 
 
 The notebook is organised into sequential cells. GPU-dependent cells (marked with runtime estimates) must be run on Colab or a CUDA-capable machine. Analysis and figure cells load saved results from disk and can be run independently.
 
-| Cell | Description | GPU | Runtime (T4) |
+| Cell# | Description | GPU | Runtime (T4) |
 |------|-------------|-----|-------------|
 | 1 | Setup, model loading, items, prompts, hooks | Yes | ~5 min |
 | 2 | Collect activations (train set) | Yes | ~60 min |
 | 3 | Probe training, held-out evaluation, per-category detection | Yes | ~60 min |
-| 4a | *Bridge cell* — reload state after disconnect (for Cell 5a) | No | <1 min |
+| 4a | Bridge cell — reload state after disconnect (for Cell 5a) | No | <1 min |
 | 5a | Causal steering test, per-category analysis, sycophancy validation | Yes | ~90 min |
-| 4b | *Bridge cell* — reload state + random direction (for Cell 5b) | No | <1 min |
+| 4b | Bridge cell — reload state + random direction (for Cell 5b) | No | <1 min |
 | 5b | Random-direction control experiment | Yes | ~60 min |
 | 6 | α-ablation with checkpointing | Yes | ~120 min |
 | — | Headroom analysis (matched baselines) | No | <1 min |
@@ -42,7 +43,7 @@ The notebook is organised into sequential cells. GPU-dependent cells (marked wit
 | — | Mistral higher α diagnostic | Yes | ~15 min |
 | — | All figures (figs 0–6, appendix A1–A2) | No | <1 min |
 
-**Bridge cells (4a, 4b)** are optional — use them to restore state after a Colab disconnect without re-running the GPU-heavy cells. Run Cell 1 first, then the appropriate bridge cell.
+**Bridge cells (4a, 4b)** are optional - use them to restore state after a Colab disconnect without re-running the GPU-heavy cells. Run Cell 1 first, then the appropriate bridge cell.
 
 **Total runtime** for the full pipeline is approximately 15–18 hours on a T4 GPU. The Mistral cells require loading a second model and should be run in a separate session after freeing the Llama model from GPU memory.
 
